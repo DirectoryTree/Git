@@ -29,14 +29,14 @@ class Git
     /**
      * Update to the given repository tag.
      *
-     * @param string $tag
+     * @param string $commit
      *
      * @return bool
      */
-    public function pull($tag)
+    public function pull($commit)
     {
-        return Terminal::with(['remote' => $this->remote, 'tag' => $tag])
-            ->run('git pull {{ $remote }} {{ $tag }} --ff-only')
+        return Terminal::with(['remote' => $this->remote, 'commit' => $commit])
+            ->run('git pull {{ $remote }} {{ $commit }} --ff-only')
             ->successful();
     }
 
@@ -53,14 +53,15 @@ class Git
     /**
      * Reset the repository to the HEAD, or to the given tag.
      *
-     * @param string|null $tag
+     * @param string|null $commit
+     * @param string      $mode
      *
      * @return bool
      */
-    public function reset($tag = null)
+    public function reset($commit = null, $mode = 'hard')
     {
-        return Terminal::with(['tag' => $tag])
-            ->run('git reset --hard {{ $tag }}')
+        return Terminal::with(['commit' => $commit, 'mode' => $mode])
+            ->run('git reset --{{ $mode }} {{ $commit }}')
             ->successful();
     }
 
@@ -151,20 +152,22 @@ class Git
     }
 
     /**
-     * Get an associative array of the list of commits between two tags.
+     * Get a list of the repository's commits.
      *
-     * @param string $startTag
-     * @param string $endTag
+     * @param array $options
      *
-     * @return array|false
+     * @return array
      */
-    public function getCommitsBetween($startTag, $endTag)
+    public function getCommits($options = [])
     {
-        $response = Terminal::with(['start' => $startTag, 'end' => $endTag])
-            ->run('git log --pretty=oneline {{ $start }}...{{ $end }}');
+        $command = $this->buildGitLogCommand($options);
+
+        $response = empty($options)
+            ? Terminal::run($command)
+            : Terminal::with($options)->run($command);
 
         if (! $response->successful()) {
-            return false;
+            return [];
         }
 
         $lines = $this->getLinesFromResponse($response);
@@ -178,6 +181,38 @@ class Git
         }
 
         return $commits;
+    }
+
+    /**
+     * Build the git log command.
+     *
+     * @param array $options
+     *
+     * @return string
+     */
+    protected function buildGitLogCommand($options)
+    {
+        $command = 'git log --pretty=oneline';
+
+        $args = array_filter([
+            'start' => isset($options['start']) ? '{{ $start }}' : null,
+            'end' => isset($options['end']) ? '{{ $end }}' : null,
+        ]);
+
+        return sprintf('%s %s', $command, implode('...', $args));
+    }
+
+    /**
+     * Get an associative array of the list of commits between two tags.
+     *
+     * @param string $startCommit
+     * @param string $endCommit
+     *
+     * @return array|false
+     */
+    public function getCommitsBetween($startCommit, $endCommit)
+    {
+        return $this->getCommits(['start' => $startCommit, 'end' => $endCommit]);
     }
 
     /**
@@ -230,7 +265,7 @@ class Git
      *
      * @param string $remote
      *
-     * @return array|null
+     * @return array
      */
     public function getRemote($remote)
     {
@@ -239,6 +274,8 @@ class Git
                 return $urls;
             }
         }
+
+        return [];
     }
 
     /**

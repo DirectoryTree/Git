@@ -9,9 +9,18 @@ class GitTest extends TestCase
 {
     public function test_git_pull()
     {
-        Terminal::fake(['git pull origin v1.0.0 --ff-only' => Terminal::response()->successful()]);
+        Terminal::fake(['git pull {{ $remote }} {{ $commit }} --ff-only' => Terminal::response()->successful()]);
 
         $this->assertTrue((new Git)->pull('v1.0.0'));
+    }
+
+    public function test_git_pull_fails()
+    {
+        Terminal::fake([
+            'git pull {{ $remote }} {{ $commit }} --ff-only' => Terminal::response([['fatal: not a git repository']])->shouldFail()
+        ]);
+
+        $this->assertFalse((new Git)->pull('v1.0.0'));
     }
 
     public function test_git_fetch()
@@ -21,11 +30,29 @@ class GitTest extends TestCase
         $this->assertTrue((new Git)->fetch());
     }
 
+    public function test_git_fetch_fails()
+    {
+        Terminal::fake(['git fetch --tags -f' => Terminal::response()->shouldFail()]);
+
+        $this->assertFalse((new Git)->fetch());
+    }
+
     public function test_git_reset()
     {
-        Terminal::fake(['git reset --hard v1.0.0' => Terminal::response()->successful()]);
+        Terminal::fake([
+            'git reset --{{ $mode }} {{ $commit }}' => Terminal::response()->successful()
+        ]);
 
         $this->assertTrue((new Git)->reset('v1.0.0'));
+    }
+
+    public function test_git_reset_fails()
+    {
+        Terminal::fake([
+            'git reset --{{ $mode }} {{ $commit }}' => Terminal::response(['fatal: not a git repository'])->shouldFail()
+        ]);
+
+        $this->assertFalse((new Git)->reset('v1.0.0'));
     }
 
     public function test_git_get_all_tags()
@@ -37,6 +64,15 @@ class GitTest extends TestCase
         $this->assertEquals(['v1.0.0', 'v1.0.1', 'v1.0.2'], (new Git)->getAllTags());
     }
 
+    public function test_git_get_all_tags_fails()
+    {
+        Terminal::fake([
+            'git tag' => Terminal::response()->shouldFail()
+        ]);
+
+        $this->assertEquals([], (new Git)->getAllTags());
+    }
+
     public function test_get_latest_tag()
     {
         Terminal::fake([
@@ -46,11 +82,27 @@ class GitTest extends TestCase
         $this->assertEquals('v1.0.2', (new Git)->getLatestTag());
     }
 
+    public function test_get_latest_tag_fails()
+    {
+        Terminal::fake([
+            'git tag' => Terminal::response()->shouldFail(),
+        ]);
+
+        $this->assertFalse((new Git)->getLatestTag());
+    }
+
     public function test_get_current_tag()
     {
         Terminal::fake(['git describe --tags' => Terminal::response('v1.0.3')->output()]);
 
         $this->assertEquals('v1.0.3', (new Git)->getCurrentTag());
+    }
+
+    public function test_get_current_tag_fails()
+    {
+        Terminal::fake(['git describe --tags' => Terminal::response()->shouldFail()]);
+
+        $this->assertFalse((new Git)->getCurrentTag());
     }
 
     public function test_get_commits_between()
@@ -85,6 +137,15 @@ class GitTest extends TestCase
         ], (new Git)->getRemotes());
     }
 
+    public function test_get_all_remotes_fails()
+    {
+        Terminal::fake([
+            'git remote -v' => Terminal::response()->shouldFail(),
+        ]);
+
+        $this->assertEquals([], (new Git)->getRemotes());
+    }
+
     public function test_get_remote()
     {
         Terminal::fake([
@@ -100,6 +161,15 @@ class GitTest extends TestCase
         ], (new Git)->getRemote('origin'));
     }
 
+    public function test_get_remote_fails()
+    {
+        Terminal::fake([
+            'git remote -v' => Terminal::response()->shouldFail(),
+        ]);
+
+        $this->assertEquals([], (new Git)->getRemote('origin'));
+    }
+
     public function test_add_remote()
     {
         Terminal::fake([
@@ -107,6 +177,15 @@ class GitTest extends TestCase
         ]);
 
         $this->assertTrue((new Git)->addRemote('origin', 'https://github.com/directorytree/rocket'));
+    }
+
+    public function test_add_remote_fails()
+    {
+        Terminal::fake([
+            'git remote add {{ $remote }} {{ $url }}' => Terminal::response()->shouldFail(),
+        ]);
+
+        $this->assertFalse((new Git)->addRemote('origin', 'https://github.com/directorytree/rocket'));
     }
 
     public function test_set_remote()
@@ -118,6 +197,15 @@ class GitTest extends TestCase
         $this->assertTrue((new Git)->setRemoteUrl('origin', 'https://github.com/directorytree/rocket'));
     }
 
+    public function test_set_remote_fails()
+    {
+        Terminal::fake([
+            'git remote set-url {{ $remote }} {{ $newUrl }}' => Terminal::response()->shouldFail(),
+        ]);
+
+        $this->assertFalse((new Git)->setRemoteUrl('origin', 'https://github.com/directorytree/rocket'));
+    }
+
     public function test_remove_remote()
     {
         Terminal::fake([
@@ -125,6 +213,15 @@ class GitTest extends TestCase
         ]);
 
         $this->assertTrue((new Git)->removeRemote('origin'));
+    }
+
+    public function test_remove_remote_fails()
+    {
+        Terminal::fake([
+            'git remote rm {{ $remote }}' => Terminal::response()->shouldFail(),
+        ]);
+
+        $this->assertFalse((new Git)->removeRemote('origin'));
     }
 
     public function test_convert_remote_to_token_fails_with_empty_token()
@@ -143,6 +240,15 @@ class GitTest extends TestCase
         $this->assertEquals('v1.0.2', (new Git)->getNextTag('v1.0.1'));
     }
 
+    public function test_get_next_tag_fails()
+    {
+        Terminal::fake([
+            'git tag' => Terminal::response()->shouldFail(),
+        ]);
+
+        $this->assertFalse((new Git)->getNextTag('v1.0.1'));
+    }
+
     public function test_get_previous_tag()
     {
         Terminal::fake([
@@ -150,5 +256,14 @@ class GitTest extends TestCase
         ]);
 
         $this->assertEquals('v1.0.1', (new Git)->getPreviousTag('v1.0.2'));
+    }
+
+    public function test_get_previous_tag_fails()
+    {
+        Terminal::fake([
+            'git tag' => Terminal::response()->shouldFail(),
+        ]);
+
+        $this->assertFalse((new Git)->getPreviousTag('v1.0.2'));
     }
 }

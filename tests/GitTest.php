@@ -61,7 +61,7 @@ class GitTest extends TestCase
             'git tag' => Terminal::response("v1.0.0\nv1.0.1\nv1.0.2")->output()
         ]);
 
-        $this->assertEquals(['v1.0.0', 'v1.0.1', 'v1.0.2'], (new Git)->getAllTags());
+        $this->assertEquals(['v1.0.0', 'v1.0.1', 'v1.0.2'], (new Git)->getTags());
     }
 
     public function test_git_get_all_tags_fails()
@@ -70,7 +70,7 @@ class GitTest extends TestCase
             'git tag' => Terminal::response()->shouldFail()
         ]);
 
-        $this->assertEquals([], (new Git)->getAllTags());
+        $this->assertEquals([], (new Git)->getTags());
     }
 
     public function test_get_latest_tag()

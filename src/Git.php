@@ -70,7 +70,7 @@ class Git
      *
      * @return array
      */
-    public function getAllTags()
+    public function getTags()
     {
         $response = Terminal::run('git tag');
 
@@ -86,7 +86,7 @@ class Git
      */
     public function getLatestTag()
     {
-        $tags = $this->getAllTags();
+        $tags = $this->getTags();
 
         return end($tags);
     }
@@ -101,7 +101,7 @@ class Git
     public function getNextTag($currentTag = null)
     {
         return $this->fetchTagByOperator(
-            $currentTag ?? $this->getCurrentTag(), $this->getAllTags(), $operand = 'next'
+            $currentTag ?? $this->getCurrentTag(), $this->getTags(), $operand = 'next'
         );
     }
 
@@ -115,7 +115,7 @@ class Git
     public function getPreviousTag($currentTag)
     {
         return $this->fetchTagByOperator(
-            $currentTag ?? $this->getCurrentTag(), $this->getAllTags(), $operator = 'previous'
+            $currentTag ?? $this->getCurrentTag(), $this->getTags(), $operator = 'previous'
         );
     }
 

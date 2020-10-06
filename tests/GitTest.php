@@ -108,7 +108,7 @@ class GitTest extends TestCase
     public function test_get_commits_between()
     {
         Terminal::fake([
-            'git log --pretty=oneline {{ $start }}...{{ $end }}' => [
+            'git log --pretty=oneline {{ $from }}...{{ $to }}' => [
                 Terminal::line('3a7b1a21b4ab9be386869a100d22b35c2b4befd1 (tag: v1.0.2) Added build status'),
                 Terminal::line('bd9d931d12f40cb84378bcdd1d4e84a198d2c54b Fixed tests')
             ]

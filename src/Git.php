@@ -195,8 +195,8 @@ class Git
         $command = 'git log --pretty=oneline';
 
         $args = array_filter([
-            'start' => isset($options['start']) ? '{{ $start }}' : null,
-            'end' => isset($options['end']) ? '{{ $end }}' : null,
+            'from' => isset($options['from']) ? '{{ $from }}' : null,
+            'to' => isset($options['to']) ? '{{ $to }}' : null,
         ]);
 
         return sprintf('%s %s', $command, implode('...', $args));
@@ -205,14 +205,14 @@ class Git
     /**
      * Get an associative array of the list of commits between two tags.
      *
-     * @param string $startCommit
-     * @param string $endCommit
+     * @param string $fromCommit
+     * @param string $toCommit
      *
      * @return array|false
      */
-    public function getCommitsBetween($startCommit, $endCommit)
+    public function getCommitsBetween($fromCommit, $toCommit)
     {
-        return $this->getCommits(['start' => $startCommit, 'end' => $endCommit]);
+        return $this->getCommits(['from' => $fromCommit, 'to' => $toCommit]);
     }
 
     /**

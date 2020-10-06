@@ -1,6 +1,6 @@
 # Git
 
-A featherweight class for calling Git commands using PHP.
+A featherweight PHP class for calling Git commands.
 
 <a href="https://travis-ci.com/DirectoryTree/Git">
     <img src="https://img.shields.io/travis/DirectoryTree/Git.svg?style=flat-square"/>

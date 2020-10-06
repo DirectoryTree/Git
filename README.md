@@ -59,9 +59,9 @@ Returns `true` or `false`.
 ```php
 $git = new \DirectoyTree\Git\Git();
 
-$git->pull('master');
+$successful = $git->pull('master');
 
-$git->pull('v1.0.1');
+$successful = $git->pull('v1.0.1');
 ```
 
 #### Fetch
@@ -71,7 +71,7 @@ Returns `true` or `false`.
 ```php
 $git = new \DirectoyTree\Git\Git();
 
-$git->fetch();
+$successful = $git->fetch();
 ```
 
 #### Reset
@@ -83,51 +83,113 @@ Returns `true` or `false`.
 ```php
 $git = new \DirectoyTree\Git\Git();
 
-$git->reset($commitOrTag = 'v0.0.9');
+$successful = $git->reset($commitOrTag = 'v0.0.9');
 
-$git->reset($commitOrTag = 'v0.0.9', $mode = 'soft');
+$successful = $git->reset($commitOrTag = 'v0.0.9', $mode = 'soft');
 ```
 
 #### Remotes
 
+##### Get
+
+Returns an `array` of remote URLs (empty array on failure):
+
 ```php
-$git = new \DirectoyTree\Git\Git();
+$urls = $git->getRemote('origin');
+```
 
-$git->getRemote('origin');
+##### Get All
 
-$git->getRemotes();
+Returns an `array` of remotes, with their URLs (empty array on failure):
 
-$git->addRemote('origin', 'https://github.com/DirectoryTree/Git');
+```php
+$remotes = $git->getRemotes();
+```
 
-$git->setRemoteUrl('origin', 'https://github.com/DirectoryTree/Git');
+##### Add
 
-$git->removeRemote('origin');
+Returns `true` or `false`.
+
+```php
+$success = $git->addRemote('origin', 'https://github.com/DirectoryTree/Git');
+```
+
+##### Set URL
+
+Returns `true` or `false`.
+
+```php
+$successful = $git->setRemoteUrl('origin', 'https://github.com/DirectoryTree/Git');
+```
+
+##### Remove 
+
+Returns `true` or `false`.
+
+```php
+$successful = $git->removeRemote('origin');
 ```
 
 #### Tags
 
+##### Get All 
+
+Returns an `array` of tags (empty `array` on failure):
+
 ```php
-$git = new \DirectoyTree\Git\Git();
+$tags = $git->getTags();
+```
 
-$git->getTags();
+##### Get Current
 
-$git->getCurrentTag();
+Returns the current repository's tag (`false` on failure).
 
-$git->getLatestTag();
+```php
+$currentTag = $git->getCurrentTag();
+```
 
-$git->getNextTag();
+##### Get Latest
 
-$git->getPreviousTag();
+Returns the current repository's latest (`false` on failure).
+
+```php
+$latestTag = $git->getLatestTag();
+```
+
+##### Get Next
+
+Returns the current repository's tag that is directly after the given (`false` on failure).
+
+```php
+$nextTag = $git->getNextTag('v1.0.0');
+```
+
+##### Get Previous
+
+```php
+$previousTag = $git->getPreviousTag('v1.0.1');
 ```
 
 #### Commits
 
+#### Get All
+
+Returns an `array` of commits (empty `array` on failure):
+
 ```php
-$git = new \DirectoyTree\Git\Git();
+$commits = $git->getCommits();
 
-$git->getCommits();
+$commits = $git->getCommits(['from' => '9d26e0']);
 
-$git->getCommitsBetween();
+$commits = $git->getCommits(['from' => '9d26e0', 'to' => '8bf0de6']);
+```
+
+##### Get Between
+
+Shorthand for the above method.
+
+```php
+$commits = $git->getCommitsBetween($from = '9d26e0', $to = '8bf0de6');
 ```
 
 ## Testing

@@ -1,0 +1,40 @@
+{
+    "name": "directorytree/git",
+    "description": "Call Git commands using PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Steve Bauman",
+            "email": "steven_bauman@outlook.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3",
+        "titasgailius/terminal": "^0.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "DirectoryTree\\Git\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DirectoryTree\\Git\\Tests\\": "tests/"
+        }
+    },
+    "archive": {
+        "exclude": ["/tests"]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "bin": ["application"]
+}

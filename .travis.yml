@@ -13,4 +13,3 @@ script: ./vendor/bin/phpunit
 branches:
   only:
     - master
-

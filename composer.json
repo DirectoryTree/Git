@@ -10,11 +10,11 @@
         }
     ],
     "require": {
-        "php": "^7.3",
-        "titasgailius/terminal": "^0.4.0"
+        "php": "^7.3|^8.0",
+        "titasgailius/terminal": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.3|^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {

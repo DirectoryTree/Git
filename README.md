@@ -1,10 +1,9 @@
 <h1 align="center">Git</h1>
 
-<p align="center">A featherweight PHP class for calling Git commands.</p>
+<p align="center">A featherweight PHP class for calling git commands on your web server.</p>
 
 <p align="center">
 <a href="https://travis-ci.com/DirectoryTree/Git"><img src="https://img.shields.io/travis/DirectoryTree/Git.svg?style=flat-square"/></a>
-<a href="https://scrutinizer-ci.com/g/DirectoryTree/Git/?branch=master"><img src="https://img.shields.io/scrutinizer/g/DirectoryTree/Git/main.svg?style=flat-square"/></a>
 <a href="https://packagist.org/packages/DirectoryTree/Git"><img src="https://img.shields.io/packagist/dt/DirectoryTree/Git.svg?style=flat-square"/></a>
 <a href="https://packagist.org/packages/DirectoryTree/Git"><img src="https://img.shields.io/packagist/v/DirectoryTree/Git.svg?style=flat-square"/></a>
 <a href="https://packagist.org/packages/DirectoryTree/Git"><img src="https://img.shields.io/github/license/DirectoryTree/Git.svg?style=flat-square"/></a>

@@ -48,7 +48,7 @@ $git = new Git($remote = 'origin');
 Returns `true` or `false`.
 
 ```php
-$git = new \DirectoyTree\Git\Git();
+$git = new Git();
 
 $successful = $git->pull('master');
 
@@ -60,7 +60,7 @@ $successful = $git->pull('v1.0.1');
 Returns `true` or `false`.
 
 ```php
-$git = new \DirectoyTree\Git\Git();
+$git = new Git();
 
 $successful = $git->fetch();
 ```
@@ -72,7 +72,7 @@ Returns `true` or `false`.
 > Note: A `hard` reset will always be performed by default unless specified otherwise.
 
 ```php
-$git = new \DirectoyTree\Git\Git();
+$git = new Git();
 
 $successful = $git->reset($commitOrTag = 'v0.0.9');
 

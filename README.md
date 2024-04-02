@@ -195,7 +195,9 @@ class GitTest extends TestCase
 {
     public function test_git_pull()
     {
-        Terminal::fake(['git pull {{ $remote }} {{ $commit }} --ff-only' => Terminal::response()->successful()]);
+        Terminal::fake([
+            'git pull {{ $remote }} {{ $commit }} --ff-only' => Terminal::response()->successful()
+        ]);
 
         $this->assertTrue((new Git)->pull('v1.0.0'));
     }

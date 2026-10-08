@@ -3,11 +3,21 @@
 <p align="center">A featherweight PHP class for calling git commands on your web server.</p>
 
 <p align="center">
-<a href="https://github.com/DirectoryTree/Git/actions"><img src="https://img.shields.io/github/actions/workflow/status/directorytree/git/run-tests.yml?branch=main&style=flat-square"></a>
-<a href="https://packagist.org/packages/DirectoryTree/Git"><img src="https://img.shields.io/packagist/dt/DirectoryTree/Git.svg?style=flat-square"/></a>
-<a href="https://packagist.org/packages/DirectoryTree/Git"><img src="https://img.shields.io/packagist/v/DirectoryTree/Git.svg?style=flat-square"/></a>
-<a href="https://packagist.org/packages/DirectoryTree/Git"><img src="https://img.shields.io/github/license/DirectoryTree/Git.svg?style=flat-square"/></a>
+    <a href="https://github.com/DirectoryTree/Git/actions/workflows/run-tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/DirectoryTree/Git/run-tests.yml?branch=main&amp;style=flat-square" alt="Tests"></a>
+    <a href="https://packagist.org/packages/directorytree/git"><img src="https://img.shields.io/packagist/dt/directorytree/git.svg?style=flat-square" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/directorytree/git"><img src="https://img.shields.io/packagist/v/directorytree/git.svg?style=flat-square" alt="Latest Version"></a>
+    <a href="https://github.com/DirectoryTree/Git/blob/main/LICENSE"><img src="https://img.shields.io/github/license/DirectoryTree/Git?style=flat-square" alt="License"></a>
 </p>
+
+<p align="center">
+    <a href="#installation">Installation</a>
+    <span> · </span>
+    <a href="#usage">Usage</a>
+    <span> · </span>
+    <a href="#testing">Testing</a>
+</p>
+
+---
 
 ## Requirements
 
